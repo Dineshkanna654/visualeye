@@ -2,7 +2,7 @@
 VisualEye — Streamlit backup version.
 
 Fully self-contained: runs without the FastAPI backend.
-Uses the same Gemma 4 and gTTS utilities.
+Uses the same Gemma 4 (via Gemini API) and gTTS utilities.
 
 Run:
     streamlit run streamlit_app.py
@@ -79,11 +79,11 @@ if "history" not in st.session_state:
 st.markdown("# 👁️ VisualEye")
 st.markdown("**AI-powered visual accessibility assistant** · Gemma 4 26B MoE · Free")
 
-api_key = os.getenv("OPENROUTER_API_KEY", "")
+api_key = os.getenv("GEMINI_API_KEY", "")
 if not api_key:
     st.error(
-        "⚠️ OPENROUTER_API_KEY is not set. "
-        "Create a `.env` file with `OPENROUTER_API_KEY=your_key_here`."
+        "⚠️ GEMINI_API_KEY is not set. "
+        "Create a `.env` file with `GEMINI_API_KEY=your_key_here`."
     )
 
 st.divider()
@@ -154,10 +154,10 @@ def run_analysis(mode: str):
         return
 
     if not api_key:
-        st.error("API key not configured. Set OPENROUTER_API_KEY in your .env file.")
+        st.error("API key not configured. Set GEMINI_API_KEY in your .env file.")
         return
 
-    with st.spinner("Gemma 4 is thinking…"):
+    with st.spinner("Gemma is thinking…"):
         gemma_result = analyze_image(
             image_base64=image_b64,
             mode=mode,
@@ -202,22 +202,22 @@ def run_analysis(mode: str):
 
 
 with tab_describe:
-    st.markdown("Gemma 4 will describe the full scene in detail.")
+    st.markdown("Gemma will describe the full scene in detail.")
     if st.button("🔍 Analyze Scene", key="btn_describe"):
         run_analysis("describe")
 
 with tab_text:
-    st.markdown("Gemma 4 will read all visible text in the image.")
+    st.markdown("Gemma will read all visible text in the image.")
     if st.button("📖 Read Text", key="btn_text"):
         run_analysis("read_text")
 
 with tab_hazard:
-    st.markdown("Gemma 4 will identify hazards and obstacles.")
+    st.markdown("Gemma will identify hazards and obstacles.")
     if st.button("⚠️ Check for Hazards", key="btn_hazard"):
         run_analysis("hazard")
 
 with tab_people:
-    st.markdown("Gemma 4 will describe any people in the image.")
+    st.markdown("Gemma will describe any people in the image.")
     if st.button("👥 Describe People", key="btn_people"):
         run_analysis("people")
 
@@ -239,7 +239,7 @@ if st.session_state.history:
 # ── Footer ───────────────────────────────────────────────────
 st.divider()
 st.markdown(
-    "<small>Powered by Gemma 4 26B MoE via OpenRouter · Free tier · "
+    "<small>Powered by Gemma 4 26B MoE via Google Gemini API · Free tier · "
     "Built for India's 8M+ visually impaired population · MIT License</small>",
     unsafe_allow_html=True,
 )

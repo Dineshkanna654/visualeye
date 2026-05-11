@@ -3,7 +3,7 @@ VisualEye FastAPI backend.
 
 Serves the frontend HTML and exposes /analyze endpoint that:
 1. Accepts a base64 image, language, and analysis mode
-2. Calls Gemma 4 26B MoE via OpenRouter for vision understanding
+2. Calls Gemma 3 27B via Google's Gemini API for vision understanding
 3. Converts the response to speech via gTTS
 4. Returns description + audio to the browser
 """
@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title="VisualEye API",
-    description="AI-powered visual accessibility assistant using Gemma 4 26B MoE",
+    description="AI-powered visual accessibility assistant using Gemma 4 26B MoE via Gemini API",
     version="1.0.0",
 )
 
@@ -75,7 +75,7 @@ async def serve_frontend():
 @app.get("/health")
 async def health_check():
     """Health check endpoint."""
-    api_key_set = bool(os.getenv("OPENROUTER_API_KEY"))
+    api_key_set = bool(os.getenv("GEMINI_API_KEY"))
     return {
         "status": "ok",
         "model": MODEL_ID,
@@ -111,7 +111,7 @@ async def analyze(request: AnalyzeRequest):
 
     logger.info("Analyzing image — mode=%s lang=%s", mode, language)
 
-    # Step 1: Vision analysis with Gemma 4
+    # Step 1: Vision analysis with Gemma 4 via Gemini API
     gemma_result = analyze_image(
         image_base64=image_b64,
         mode=mode,
