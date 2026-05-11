@@ -627,8 +627,8 @@
 <div class="toast" id="toast" aria-live="polite"></div>
 
 <footer>
-  Powered by <a href="https://openrouter.ai" target="_blank" rel="noopener">OpenRouter</a>
-  &nbsp;·&nbsp; Gemma 4 26B MoE &nbsp;·&nbsp; Free &amp; Open Source &nbsp;·&nbsp;
+  Powered by <a href="https://ai.google.dev/gemma" target="_blank" rel="noopener">Gemma 4 26B MoE</a>
+  &nbsp;·&nbsp; Free &amp; Open Source &nbsp;·&nbsp;
   Built for India's 8M+ visually impaired
 </footer>
 
@@ -924,7 +924,7 @@
 
     function tick() {
       analyzeBtnText.textContent = `Rate limited — retrying in ${seconds}s…`;
-      errorText.textContent = `OpenRouter rate limit reached. Auto-retrying in ${seconds}s…`;
+      errorText.textContent = `Rate limit reached. Auto-retrying in ${seconds}s…`;
       errorBanner.style.display = 'flex';
       if (seconds <= 0) {
         clearInterval(countdownTimer);
